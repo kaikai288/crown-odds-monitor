@@ -124,4 +124,4 @@ if __name__ == "__main__":
 
     print(f"Server running on port {port}")
 
-    server.server_close()
+    server.serve_forever()
