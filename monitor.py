@@ -1,6 +1,10 @@
 import os
 import time
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
+
 import requests
+
 
 ISPORTS_API_KEY = os.environ.get("ISPORTS_API_KEY")
 BOT_TOKEN = os.environ.get("BOT_TOKEN")
@@ -12,7 +16,12 @@ last_odds = {}
 
 
 def send_telegram(message):
+    if not BOT_TOKEN or not CHAT_ID:
+        print("BOT_TOKEN or CHAT_ID missing")
+        return
+
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+
     requests.post(
         url,
         data={
@@ -29,6 +38,7 @@ def get_odds():
         params={"api_key": ISPORTS_API_KEY},
         timeout=10
     )
+
     response.raise_for_status()
     return response.json()
 
@@ -54,7 +64,7 @@ def monitor():
                 home = parts[3]
                 away = parts[4]
 
-                # Crown = 3
+                # 皇冠让分公司 ID = 3
                 if company_id != "3":
                     continue
 
@@ -77,10 +87,32 @@ def monitor():
                 last_odds[match_id] = current
 
         except Exception as e:
-            print("Error:", e)
+            print("Monitor error:", e)
 
-        time.sleep(5)
+        time.sleep(2)
+
+
+class HealthHandler(BaseHTTPRequestHandler):
+
+    def do_GET(self):
+        self.send_response(200)
+        self.send_header("Content-type", "text/plain")
+        self.end_headers()
+        self.wfile.write(b"Crown odds monitor is running")
+
+    def log_message(self, format, *args):
+        return
+
+
+def run_web_server():
+    port = int(os.environ.get("PORT", "10000"))
+
+    server = HTTPServer(("0.0.0.0", port), HealthHandler)
+
+    print(f"Web server running on port {port}")
+    server.serve_forever()
 
 
 if __name__ == "__main__":
-    monitor()
+    threading.Thread(target=monitor, daemon=True).start()
+    run_web_server()
