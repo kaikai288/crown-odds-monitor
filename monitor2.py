@@ -6,8 +6,8 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import requests
 
 ISPORTS_API_KEY = os.environ.get("ISPORTS_API_KEY")
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
-CHAT_ID = os.environ.get("CHAT_ID")
+BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")
+CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
 API_URL = "https://api.isportsapi.com/sport/basketball/odds/fulltime/changes"
 
@@ -55,7 +55,7 @@ def get_odds():
 def monitor():
     send_telegram("✅ 皇冠水位监控程序已启动")
 
-    while True:
+    for _ in range(1):
         odds = get_odds()
 
         for item in odds:
@@ -124,4 +124,4 @@ if __name__ == "__main__":
 
     print(f"Server running on port {port}")
 
-    server.serve_forever()
+    server.server_close()
