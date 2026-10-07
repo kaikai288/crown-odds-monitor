@@ -3,12 +3,12 @@ name: Crown Odds Monitor
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 */6 * * *"
 
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 4
+    timeout-minutes: 360
 
     steps:
       - name: Checkout
