@@ -56,7 +56,7 @@ def get_odds():
 def monitor():
     send_telegram("✅ 皇冠水位监控程序已启动")
 
-    for _ in range(1):
+    while True:
         odds = get_odds()
 
         for item in odds:
@@ -101,7 +101,7 @@ def monitor():
             except Exception as e:
                 print("Parse error:", e)
 
-        time.sleep(2)
+       time.sleep(2)
 
 
 class HealthHandler(BaseHTTPRequestHandler):
