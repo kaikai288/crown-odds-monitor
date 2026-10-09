@@ -41,7 +41,7 @@ def get_odds():
         )
 
         data = response.json()
-
+        print("API DEBUG:", response.status_code, "code:", data.get("code"), "data_type:", type(data.get("data")).__name__, "data_keys:", list(data.get("data", {}).keys()) if isinstance(data.get("data"), dict) else "N/A", flush=True)
         if data.get("code") != 0:
             print("API response:", data)
             return []
