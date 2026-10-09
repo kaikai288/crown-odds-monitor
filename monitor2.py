@@ -101,7 +101,7 @@ def monitor():
             except Exception as e:
                 print("Parse error:", e)
 
-       time.sleep(2)
+        time.sleep(2)
 
 
 class HealthHandler(BaseHTTPRequestHandler):
