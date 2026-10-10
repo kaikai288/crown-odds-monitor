@@ -47,7 +47,7 @@ def get_odds():
 
             if "More than 200 trials today" in str(data.get("message", "")):
                 send_telegram("⚠️ 今日API额度已用完，监控暂停")
-                raise SystemExit("API daily limit reached")
+                raise SystemExit(0)
 
             return []
   
