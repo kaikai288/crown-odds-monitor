@@ -62,7 +62,7 @@ def get_odds():
 def monitor():
     send_telegram("✅ 皇冠水位监控程序已启动")
 
-        for _ in range(1):
+    for _ in range(1):
         odds = get_odds()
 
         for item in odds:
