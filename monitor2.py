@@ -123,7 +123,7 @@ class HealthHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-        threading.Thread(target=monitor, daemon=True).start()
+    threading.Thread(target=monitor, daemon=True).start()
 
     port = int(os.environ.get("PORT", "10000"))
 
