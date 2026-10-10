@@ -44,7 +44,13 @@ def get_odds():
         print("API DEBUG:", response.status_code, "code:", data.get("code"), "data_type:", type(data.get("data")).__name__, "data_keys:", list(data.get("data", {}).keys()) if isinstance(data.get("data"), dict) else "N/A", flush=True)
         if data.get("code") != 0:
             print("API response:", data)
+
+            if "More than 200 trials today" in str(data.get("message", "")):
+                send_telegram("⚠️ 今日API额度已用完，监控暂停")
+                raise SystemExit("API daily limit reached")
+
             return []
+  
 
         return data.get("data", {}).get("spread", [])
 
@@ -101,7 +107,7 @@ def monitor():
             except Exception as e:
                 print("Parse error:", e)
 
-        time.sleep(60)
+        time.sleep(600)
 
 
 class HealthHandler(BaseHTTPRequestHandler):
