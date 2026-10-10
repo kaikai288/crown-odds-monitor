@@ -2,6 +2,8 @@ name: Crown Odds Monitor
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "*/10 * * * *"
 jobs:
   monitor:
     runs-on: ubuntu-latest
