@@ -62,7 +62,7 @@ def get_odds():
 def monitor():
     send_telegram("✅ 皇冠水位监控程序已启动")
 
-    while True:
+        for _ in range(1):
         odds = get_odds()
 
         for item in odds:
@@ -107,28 +107,8 @@ def monitor():
             except Exception as e:
                 print("Parse error:", e)
 
-        time.sleep(600)
-
-
-class HealthHandler(BaseHTTPRequestHandler):
-
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-Type", "text/plain")
-        self.end_headers()
-        self.wfile.write(b"Crown Odds Monitor OK")
-
-    def log_message(self, format, *args):
-        return
+        
 
 
 if __name__ == "__main__":
-    threading.Thread(target=monitor, daemon=True).start()
-
-    port = int(os.environ.get("PORT", "10000"))
-
-    server = HTTPServer(("0.0.0.0", port), HealthHandler)
-
-    print(f"Server running on port {port}")
-
-    server.serve_forever()
+    monitor()
