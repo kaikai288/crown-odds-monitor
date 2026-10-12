@@ -90,7 +90,7 @@ def monitor():
                 if company_id != "3":
                     continue
 
-                current = (handicap, home, away)
+                current = [handicap, home, away]
 
                 if match_id not in last_odds:
                     last_odds[match_id] = current
