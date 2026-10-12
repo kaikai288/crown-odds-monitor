@@ -12,7 +12,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - name: Restore odds history
+        uses: actions/cache/restore@v4
+        with:
+          path: last_odds.json
+          key: odds-history-${{ github.run_id }}
+          restore-keys: |
+            odds-history-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -27,3 +33,9 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python monitor2.py
+      - name: Save odds history
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: last_odds.json
+          key: odds-history-${{ github.run_id }}
