@@ -1,5 +1,6 @@
 import os
 import time
+import json
 import threading
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -11,7 +12,13 @@ CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID")
 
 API_URL = "https://api.isportsapi.com/sport/basketball/odds/fulltime/changes"
 
-last_odds = {}
+STATE_FILE = "last_odds.json"
+
+try:
+    with open(STATE_FILE, "r", encoding="utf-8") as f:
+        last_odds = json.load(f)
+except (FileNotFoundError, json.JSONDecodeError):
+    last_odds = {}
 
 
 def send_telegram(message):
@@ -107,7 +114,12 @@ def monitor():
             except Exception as e:
                 print("Parse error:", e)
 
-        
+        try:
+            with open(STATE_FILE, "w", encoding="utf-8") as f:
+                json.dump(last_odds, f)
+            print("水位记录已保存")
+        except Exception as e:
+            print("保存水位失败:", e)       
 
 
 if __name__ == "__main__":
