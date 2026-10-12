@@ -51,7 +51,7 @@ def get_odds():
 
             return []
   
-
+        print("SPREAD SAMPLE:", str(data.get("data", {}).get("spread", []))[:500])
         return data.get("data", {}).get("spread", [])
 
     except Exception as e:
