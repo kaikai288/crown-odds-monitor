@@ -13,7 +13,7 @@ else:
             URL,
             params={
                 "api_key": API_KEY,
-                "matchId": "21207370"
+                
             },
             timeout=15
         )
