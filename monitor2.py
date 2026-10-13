@@ -65,7 +65,8 @@ def get_odds():
         print("API error:", e)
         return []
 
-
+def is_nba_match(match_id, nba_ids):
+    return str(match_id) in nba_ids
 def monitor():
     send_telegram("✅ 皇冠水位监控程序已启动")
 
