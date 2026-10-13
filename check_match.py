@@ -19,7 +19,7 @@ else:
         )
         response.raise_for_status()
         result = response.json()
-
+        print("MATCH DATA:", str(result)[:3000])
         if result.get("code") == 0:
             matches = result.get("data") or []
             if isinstance(matches, dict):
