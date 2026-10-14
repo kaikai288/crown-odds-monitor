@@ -13,7 +13,7 @@ else:
             URL,
             params={
                 "api_key": API_KEY,
-                
+                "date": "2026-10-13"
             },
             timeout=15
         )
